@@ -91,7 +91,7 @@ class Graph:
                     ss.push(new_path)
 
 
-    def dft_recursive(self, starting_vertex, visited=set()):
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -100,8 +100,8 @@ class Graph:
         """
         # Starting out with visited defaulting to None
         # it will turn into a recursion error if not done this way
-        # if visited is None:
-        #     visited = set()
+        if visited is None:
+            visited = set()
         
         # Check if vertex (node) is visited
         # if not ...
@@ -142,7 +142,7 @@ class Graph:
                 if vertex == destination_vertex:
                     # if it is, return the path
                     return path
-                # # enqueue a path to all neighbors
+                # enqueue a path to all neighbors
                 for neighbor in self.get_neighbors(vertex):
                     #make a copy of the path
                     new_path = list(path) #constructor built in python
@@ -157,7 +157,34 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # Create a stack and push (add) the starting vertex
+        ss = Stack()
+        # Pushes (adds) the vertex
+        ss.push([starting_vertex])
+        # Create a visited set to store the vertices
+        visited = set()
+        # While the stack is not empty
+        while ss.size() > 0:
+            # pop the first path
+            path = ss.pop()
+            # grab the vertex from the end of the path
+            vertex = path[-1]
+            # check if visited
+            # if it hasn't been visited
+            if vertex not in visited:
+                # mark as visited
+                visited.add(vertex)
+                # check if it is the "target"
+                if vertex == destination_vertex:
+                    # if it is, return the path
+                    return path
+                # push (add) path to all neighbors
+                for neighbor in self.get_neighbors(vertex):
+                    # make a copy of the path
+                    new_path = list(path)
+                    new_path.append(neighbor)
+                    ss.push(new_path)
+
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
