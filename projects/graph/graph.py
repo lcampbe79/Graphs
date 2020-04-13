@@ -91,7 +91,7 @@ class Graph:
                     ss.push(new_path)
 
 
-    def dft_recursive(self, starting_vertex, visited=None):
+    def dft_recursive(self, starting_vertex, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -100,8 +100,8 @@ class Graph:
         """
         # Starting out with visited defaulting to None
         # it will turn into a recursion error if not done this way
-        if visited is None:
-            visited = set()
+        # if visited is None:
+        #     visited = set()
         
         # Check if vertex (node) is visited
         # if not ...
@@ -121,7 +121,35 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass
+        # Create a queue and enqueue starting vertex
+        qq = Queue()
+        # Enqueues the starting vertex
+        qq.enqueue([starting_vertex])
+        # Create a set to store the vertices
+        visited = set()
+        # While the queue is not empty
+        while qq.size() > 0:
+            # dequeue the first path
+            path = qq.dequeue()
+            # grab the vertex from the end of the path
+            vertex = path[-1]
+            # check if it's been visited
+            # if it hasn't been
+            if vertex not in visited:
+                # mark as visited
+                visited.add(vertex)
+                # check if it is the "target"
+                if vertex == destination_vertex:
+                    # if it is, return the path
+                    return path
+                # # enqueue a path to all neighbors
+                for neighbor in self.get_neighbors(vertex):
+                    #make a copy of the path
+                    new_path = list(path) #constructor built in python
+                    new_path.append(neighbor)
+                    qq.enqueue(new_path)
+                
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
