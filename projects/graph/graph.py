@@ -34,7 +34,7 @@ class Graph:
             return self.vertices[vertex_id]
         else:
             return None
-            # May want to raise an exception here instead
+            # May want to raise an exception (ValueError) here instead
 
 
     def bft(self, starting_vertex):
@@ -91,14 +91,29 @@ class Graph:
                     ss.push(new_path)
 
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # Starting out with visited defaulting to None
+        # it will turn into a recursion error if not done this way
+        if visited is None:
+            visited = set()
+        
+        # Check if vertex (node) is visited
+        # if not ...
+        if starting_vertex not in visited:
+            # mark as visited
+            visited.add(starting_vertex)
+            # DO THE THING!! (search stop when you find something)
+            print(starting_vertex)
+            # recurse all neighbors
+            for neighbor in self.get_neighbors(starting_vertex):
+                self.dft_recursive(neighbor, visited)
+        
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -106,7 +121,7 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        pass
 
     def dfs(self, starting_vertex, destination_vertex):
         """
