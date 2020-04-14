@@ -56,7 +56,7 @@ class Graph:
             # if not in visited
             if path[-1] not in visted:
                 # DO THE THING!!! (search stop when you find something)
-                print(f"->BFT", path[-1])
+                print(path[-1]) #f"->BFT", 
                 # Mark as visited
                 visted.add(path[-1])
                 # enqueue all neighbors
@@ -82,12 +82,14 @@ class Graph:
             # if not in visited
             if path[-1] not in visited:
                 # DO THE THING!! (search stop when you find something)
-                print(f"--->DFT", path[-1])
+                print(path[-1]) #f"--->DFT", 
                 # mark as visited
                 visited.add(path[-1])
                 # append/add all neighbors
                 for next_vert in self.get_neighbors(path[-1]):
+                    # makes copy 
                     new_path = list(path)
+                    # adds the copy
                     new_path.append(next_vert)
                     ss.push(new_path)
 
@@ -98,6 +100,7 @@ class Graph:
         beginning from starting_vertex.
 
         This should be done using recursion.
+        Pick a neighbor (:20)
         """
         # Starting out with visited defaulting to None
         # it will turn into a recursion error if not done this way
@@ -109,7 +112,7 @@ class Graph:
             # mark as visited
             visited.add(starting_vertex)
             # DO THE THING!! (search stop when you find something)
-            print(f"---->DFT Recursion: ", starting_vertex)
+            print(starting_vertex) #f"---->DFT Recursion: ",
             # recurse all neighbors
             for neighbor in self.get_neighbors(starting_vertex):
                 self.dft_recursive(neighbor, visited)
@@ -147,6 +150,7 @@ class Graph:
                 for neighbor in self.get_neighbors(vertex):
                     #make a copy of the path
                     new_path = list(path) #constructor built in python
+                    # adds the copy
                     new_path.append(neighbor)
                     qq.enqueue(new_path)
                 
