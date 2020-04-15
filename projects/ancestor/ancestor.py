@@ -66,14 +66,20 @@ def earliest_ancestor(ancestors, starting_node):
     #path of starting node
     queue.enqueue( [starting_node ])
 
+    # Farthest distance from the input individual.
     longest_path_length = 1
+    # Has no parents, the function should return -1
+    # If there is more than one ancestor tied for "earliest"
     earliest_ancestor = -1
-
+    # While the queue is not empty
     while queue.size() > 0:
+        # dequeue the first path
+        # Since creating a path, order matters
         path = queue.dequeue()
         # returns -1 if there is no grandparent
         current_node = path[-1]
 
+        #keeps track of longest path with the earliest ancestor or if the path length is greater than the longest path
         if len(path) >= longest_path_length and current_node < earliest_ancestor or len(path) > longest_path_length: 
             # if current_node < earliest_ancestor: #or len(path) > longest_path_length:
             longest_path_length = len(path)
@@ -85,9 +91,13 @@ def earliest_ancestor(ancestors, starting_node):
         #     longest_path_length = len(path)
         #     earliest_ancestor = current_node
 
+        #
         neighbors = graph.vertices[current_node]
+        # push (add) path to all neighbors
         for ancestor in neighbors:
+            # make a copy of the path
             path_copy = list(path)
+            # add the copied path to the neighbor
             path_copy.append(ancestor)
             queue.enqueue(path_copy)
     
