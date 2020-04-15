@@ -45,9 +45,12 @@ class Graph:
         """
         # Create a queue and enqueue starting vertex
         qq = Queue()
+
         qq.enqueue([starting_vertex])
         # breakpoint()
         # Create a set of traversed vertices
+        # using set instead of array is O(1) instead of O(n)
+        # if the graph is huge and using an array will turn into O(n^2)
         visted = set()
         # While queue is not empty:
         while qq.size() > 0: # size is in util.py
@@ -69,10 +72,11 @@ class Graph:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
+        NOT GUARANTEED TO GIVE SHORTEST PATH
         """
         # Create a stack and push(add) starting vertex
         ss = Stack()
-        ss.push([starting_vertex])
+        ss.push([starting_vertex]) #creates an array
         # Create a set of traversed vertices
         visited = set()
         # While stack is not empty
@@ -100,40 +104,43 @@ class Graph:
         beginning from starting_vertex.
 
         This should be done using recursion.
-        Pick a neighbor (:20)
+        Pick a neighbor explaination (:20)
+        binary search tree code
         """
         # Starting out with visited defaulting to None
         # it will turn into a recursion error if not done this way
+        # Initial case
         if visited is None:
             visited = set()
         # Check if vertex (node) is visited
         # if not ...
         if starting_vertex not in visited:
-            # mark as visited
+            #  Tracking visited neighbors mark as visited
             visited.add(starting_vertex)
             # DO THE THING!! (search stop when you find something)
             print(starting_vertex) #f"---->DFT Recursion: ",
             # recurse all neighbors
             for neighbor in self.get_neighbors(starting_vertex):
                 self.dft_recursive(neighbor, visited)
-        
+            # Base case: when all neighbors are visited
 
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
+
         """
         # Create a queue and enqueue starting vertex
         qq = Queue()
         # Enqueues the starting vertex
-        qq.enqueue([starting_vertex])
+        qq.enqueue([starting_vertex]) # creates an array
         # Create a set to store the vertices
         visited = set()
         # While the queue is not empty
         while qq.size() > 0:
             # dequeue the first path
-            # dequeue the first path
+            #Since creating a path, order matters
             path = qq.dequeue()
             # grab the vertex from the end of the path
             vertex = path[-1]
@@ -153,6 +160,9 @@ class Graph:
                     # adds the copy
                     new_path.append(neighbor)
                     qq.enqueue(new_path)
+        # Path not found
+        #return None
+        #return "Error path not found"
                 
 
 
@@ -217,6 +227,8 @@ class Graph:
             visited.add(starting_vertex) 
             # make a copy of the path
             new_path = list(path)
+            #or can use
+            #path = path + [starting_vertex] and won't need line 228
             # add the copied path to the starting_vertex
             new_path.append(starting_vertex)
             # Checks if the starting_vertex and destination_vertex are the same
