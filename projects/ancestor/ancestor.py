@@ -91,7 +91,7 @@ def earliest_ancestor(ancestors, starting_node):
         #     longest_path_length = len(path)
         #     earliest_ancestor = current_node
 
-        #
+        #from add_edge won't need to create a helper function
         neighbors = graph.vertices[current_node]
         # push (add) path to all neighbors
         for ancestor in neighbors:
