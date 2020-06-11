@@ -1,4 +1,6 @@
 import random
+import math
+import time
 
 class Queue():
     def __init__(self):
@@ -137,28 +139,32 @@ class SocialGraph:
         # Create queue
         queue = Queue()
         # Enqueue path
-        queue.enqueue([user_id])
+        queue.enqueue([user_id]) #starting user
         # path = path[-1] #[user_id]
-        # create visited
+        # create visited, key is user in extended network, value is the path to that user
         visited = {}  # Note that this is a dictionary (looks only for the key), not a set
         # add to visited-
-        #  ^ while queue not empty
+        #  ^ while queue is empty
         while queue.size() > 0:
             # dequeue first path
             path = queue.dequeue()
             #helper for the "vertex"
-            user = path[-1]
+            user = path[-1] #explores the path to find the end, grabs the last one in the list
             # if not visited
             if user not in visited:
             #do the thing!!
             # add to visited
-                visited[user] = path
+                visited[user] = path #path so far
             # for each neighbor
                 for neighbor in self.friendships[user]:
                 #copy path and enqueue
-                    new_path = path.copy()
-                    new_path.append(neighbor)
-                    queue.enqueue(new_path)
+                    #new_path = path.copy()
+                    # new_path = list(path)
+                    # new_path.append(neighbor)
+                    # queue.enqueue(new_path)
+
+                    #returns a list without modifying the one in place that doesn’t require first creating a new path
+                    queue.enqueue(path + [neighbor])
 
         
 
@@ -197,14 +203,49 @@ class SocialGraph:
 
 
 if __name__ == '__main__':
+
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print(f"friendships: ", sg.friendships)
-    print(f"----------------")
+    start_time = time.time()
+    sg.populate_graph(1000, 5)
+    end_time = time.time()
+    print (f"runtime: {end_time - start_time} seconds")
     connections = sg.get_all_social_paths(1)
-    print(f"connections: ", connections)
-    print(f"----------------")
-    total_social_paths = 0
-    for user_id in connections:
-        total_social_paths += len(connections[user_id])
-    print(f" Avg length of social path: {total_social_paths / len(connections)}")
+    # print(sg.friendships)
+    # print(connections)
+    users_in_extended_network = len(connections) - 1
+    total_users = len(sg.users)
+    print("----------------")
+    print(f"Pecentage: {users_in_extended_network/ total_users * 100:2f}")
+    total = 0
+    # for user_id in connections:
+    #     total += len(connections[user_id]) - 1
+    # print(len(connections))
+    # print(total / len(connections))
+
+    # total_connections = 0
+    # total_degrees = 0
+    # iterations = 10
+    # for i in range(0, iterations):
+    #     sg.populate_graph(1000, 5)
+    #     connections = sg.get_all_social_paths(1)
+    #     total = 0
+    #     for user_id in connections:
+    #         total += len(connections[user_id]) - 1
+    #     total_connections += len(connections)
+    #     total_degrees += total / len(connections)
+    #     print("-----")
+    #     print(f"Friends in network: {len(connections)}")
+    #     print(f"Avg degrees: {total / len(connections)}")
+    # print(total_connections / iterations)
+    # print(total_degrees / iterations)
+    # sg = SocialGraph()
+    # sg.populate_graph(10, 2)
+    # print(f"friendships: ", sg.friendships)
+    # print(f"----------------")
+    # connections = sg.get_all_social_paths(1)
+    # print(f"connections: ", connections)
+    # print(f"----------------")
+    # total_social_paths = 0
+    # for user_id in connections:
+    #     total_social_paths += len(connections[user_id]) -1 
+    # print(f" Avg length of social path: {total_social_paths / len(connections)}")
